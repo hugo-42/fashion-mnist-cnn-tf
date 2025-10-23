@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fashion‑MNIST — CNN (TensorFlow)</title>
+  <meta name="description" content="Projet portfolio : classification d'images Fashion‑MNIST par CNN (TensorFlow). Notebook exécutable dans Colab, code sur GitHub." />
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #0b5394;
+      --primary-600: #0a4a84;
+      --border: #e5e7eb;
+    }
+    html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif; }
+    .container { max-width: 980px; margin: 0 auto; padding: 32px 20px 64px; }
+    header { margin-bottom: 28px; }
+    h1 { font-size: clamp(26px, 3vw, 36px); margin: 0 0 8px; color: var(--primary); letter-spacing: .2px; }
+    p.lead { font-size: clamp(16px, 2vw, 18px); color: var(--muted); margin: 0 0 18px; }
+    .buttons { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0 6px; }
+    .btn { display: inline-block; padding: 10px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; border: 1px solid var(--border); background: var(--card); color: var(--text); }
+    .btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn.primary:hover { background: var(--primary-600); border-color: var(--primary-600); }
+    .btn:hover { border-color: #cbd5e1; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 880px) { .grid { grid-template-columns: 1.2fr 0.8fr; } }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 18px; }
+    h2 { font-size: 18px; margin: 0 0 10px; color: var(--primary); }
+    ul { margin: 8px 0 4px 18px; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 13px; }
+    pre { background: #0f172a; color: #e2e8f0; padding: 14px; border-radius: 8px; overflow:auto; }
+    .kpi { display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+    .kpi .pill { background: #eef2ff; color: #3730a3; padding: 8px 12px; border-radius: 999px; border: 1px solid #c7d2fe; font-weight: 600; }
+    footer { margin-top: 38px; color: var(--muted); font-size: 13px; }
+    .muted { color: var(--muted); }
+    .split { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 720px) { .split { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Fashion‑MNIST — CNN (TensorFlow)</h1>
+      <p class="lead">Projet de classification d'images (10 classes, 28×28). Notebook exécutable dans Google Colab, code open‑source sur GitHub.</p>
+      <div class="buttons">
+        <a class="btn primary" href="https://colab.research.google.com/github/hugo-42/fashion-mnist-cnn-tf/blob/main/Fashion_MNIST_portfolio.ipynb" target="_blank" rel="noopener">Ouvrir dans Colab</a>
+        <a class="btn" href="https://github.com/hugo-42/fashion-mnist-cnn-tf" target="_blank" rel="noopener">Voir le dépôt GitHub</a>
+        <a class="btn" href="https://github.com/hugo-42/fashion-mnist-cnn-tf/blob/main/Fashion_MNIST_portfolio.ipynb" target="_blank" rel="noopener">Voir le notebook</a>
+      </div>
+    </header>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Objectif</h2>
+        <p>Construire un petit réseau de neurones convolutionnel (CNN) pour reconnaître des vêtements du dataset <strong>Fashion‑MNIST</strong>.</p>
+        <div class="kpi">
+          <div class="pill">Accuracy val&nbsp;: <strong>91%</strong></div>
+          <div class="pill">Accuracy test&nbsp;: <strong>90%</strong></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Stack</h2>
+        <ul>
+          <li>TensorFlow / Keras</li>
+          <li>NumPy, Matplotlib</li>
+          <li>scikit‑learn</li>
+          <li>Jupyter Notebook</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="split" style="margin-top:16px;">
+      <div class="card">
+        <h2>Données</h2>
+        <ul>
+          <li>Source : <code>tensorflow.keras.datasets.fashion_mnist</code></li>
+          <li>Images 28×28 en niveaux de gris, 10 classes</li>
+          <li>Ensembles d'entraînement et de test fournis</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Modèle</h2>
+        <ul>
+          <li>Convolutions → ReLU → MaxPool (×2)</li>
+          <li>Dropout</li>
+          <li>Denses (FC) → Softmax (10 classes)</li>
+          <li>Optimiseur Adam, perte : <code>sparse_categorical_crossentropy</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:16px;">
+      <h2>Exécuter en local</h2>
+      <pre><code>python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scriptsctivate
+pip install -r requirements.txt
+jupyter notebook
+</code></pre>
+      <p class="muted">Ouvrez <code>Fashion_MNIST_portfolio.ipynb</code> puis exécutez les cellules.</p>
+    </section>
+
+    <footer>
+      <p>Projet maintenu par <strong>hugo-42</strong>. Licence MIT. Ce site est rendu via GitHub Pages.</p>
+    </footer>
+  </div>
+</body>
+</html>
